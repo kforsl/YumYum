@@ -7,7 +7,7 @@ const database = new nedb({ filename: "./data/menu.db", autoload: true });
 database.count({})
     .then(count => {
         if (count === 0) {
-            database, insert({
+            database.insert({
                 "wontons": [
                     {
                         "name": "Karlstad",
@@ -108,15 +108,20 @@ database.count({})
         }
     })
     .catch(err => {
-        next(err);
+        console.log(err);
     });
 
 // @desc GET all the menuitems from the database 
 // @route /menu
 export const getMenu = async (req, res, next) => {
     try {
-
-    } catch (error) {
-        next(error)
+        const menu = await database.find({})
+        res.status(200).send({
+            success: true,
+            status: 200,
+            data: menu
+        })
+    } catch (err) {
+        next(err)
     }
 }
