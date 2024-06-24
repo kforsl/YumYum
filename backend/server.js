@@ -6,7 +6,8 @@ import menuRouter from "./routes/menu.js"
 import ordersRouter from "./routes/orders.js"
 
 // import Middleware 
-
+import notFound from "./middlewares/notFound.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
 const PORT = 8080;
@@ -22,3 +23,5 @@ app.use('/orders', ordersRouter)
 app.listen(PORT, () => console.log(`Server is running on ${PORT}`));
 
 // ERROR handeling Middleware
+app.use(notFound) // Creates an Error if the URL is not found 
+app.use(errorHandler) // Handle Errors 
