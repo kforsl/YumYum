@@ -14,8 +14,11 @@
     "description": "",
     "dependencies": {
         "cors": "^2.8.5",
+        "dotenv": "^16.4.5",
         "express": "^4.19.2",
         "joi": "^17.13.3",
-        "nedb-promises": "^6.2.3"
+        "jsonwebtoken": "^9.0.2",
+        "nedb-promises": "^6.2.3",
+        "uuid": "^10.0.0"
     }
 }
