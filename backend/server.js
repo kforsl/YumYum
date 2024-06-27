@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 
 // import Routes
 import authRouter from "./routes/auth.js"
@@ -16,6 +17,7 @@ global.currentUser = null
 
 // Middleware 
 app.use(express.json());
+app.use(cors())
 
 // Routes 
 app.use('/auth', authRouter)

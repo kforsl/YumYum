@@ -117,9 +117,7 @@ export const getMenu = async (req, res, next) => {
     try {
         const menu = await database.find({})
         res.status(200).send({
-            success: true,
-            status: 200,
-            data: menu
+            menu
         })
     } catch (err) {
         next(err)
