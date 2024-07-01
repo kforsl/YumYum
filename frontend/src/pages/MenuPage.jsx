@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MenuItem from "../components/MenuItem.jsx"
 import axios from 'axios';
 import MenuExtras from "../components/MenuExtras.jsx";
+import CartButton from "../components/CartButton.jsx";
 
 const fetchData = async (setMenuItems) => {
     try {
@@ -21,8 +22,14 @@ function MenuPage() {
     }, [])
 
     return (
-        <main className="p-4 bg-fixed text-white">
-            <section className="bg-slate-500 rounded">
+        <main className="p-4 bg-fixed text-snow bg-mint min-h-svh font-fira" style={{
+            backgroundImage: `url('../src/assets/leafbg.svg')`
+        }}>
+            <header className="flex flex-row justify-between mb-8" >
+                <img src="../src/assets/logo.svg" alt="" />
+                <CartButton />
+            </header>
+            <section className="bg-gray-dark rounded">
                 <h1 className="text-3xl pl-4 py-8 font-bold "> MENY </h1>
 
                 {

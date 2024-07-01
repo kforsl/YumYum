@@ -5,7 +5,7 @@ function MenuItem({ item }) {
         <li className="p-4 border-b border-dotted">
             <section className="flex flex-row justify-between mb-2 text-xl font-bold">
                 <h2 className="">{item.name}</h2>
-                <h3 className="">{item.price}SEK</h3>
+                <h3 className="">{item.price} SEK</h3>
             </section>
             <section className="flex flex-row gap-1 text-sm font-medium">
                 {

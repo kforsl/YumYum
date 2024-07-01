@@ -6,7 +6,7 @@ function MenuExtras({ dip }) {
     }
 
     return (
-        <p className="p-2 bg-slate-400 rounded">{dipName}</p>
+        <p className="py-2 px-3 bg-gray-light rounded text-sm">{dipName}</p>
     )
 }
 
