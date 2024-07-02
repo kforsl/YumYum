@@ -6,6 +6,7 @@ module.exports = {
     ],
     theme: {
         colors: {
+            'white': '#eeeeee',
             'bacon': '#FBE9E9',
             'alert': '#EB5757',
             'mint': '#8ED8BF',
