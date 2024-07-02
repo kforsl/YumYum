@@ -34,7 +34,7 @@ function MenuPage() {
 
                 {
                     menuItems.wontons ?
-                        <ul className="">
+                        <ul className="divide-y divide-dashed">
                             {
                                 menuItems.wontons.map((item, index) => {
                                     return (
