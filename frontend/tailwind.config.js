@@ -8,7 +8,7 @@ module.exports = {
         colors: {
             'white': '#eeeeee',
             'bacon': '#FBE9E9',
-            'alert': '#EB5757',
+            'mint-light': '#DBFBF0',
             'mint': '#8ED8BF',
             'mint-dark': '#489078',
             'coal': '#353131',
@@ -17,7 +17,7 @@ module.exports = {
             'gray-light': '#837D7C',
             'gray-lightest': '#C2C1C1',
             'snow': '#ECEAE7',
-
+            'alert': '#EB5757',
         },
         fontFamily: {
             fira: ['Fira Sans', 'sans-serif'],

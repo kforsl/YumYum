@@ -20,7 +20,7 @@ function EtaPage() {
                     </p>
                 </section>
                 <footer className='fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full'>
-                    <Button text={'BESTÄLL MER'} fill={true} />
+                    <Button text={'BESTÄLL MER'} fill={true} color={"coal"} />
                     <Button text={'SE KVITTO'} fill={false} />
                 </footer>
             </main>
@@ -40,7 +40,7 @@ function EtaPage() {
                     </p>
                 </section>
                 <footer className='fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full'>
-                    <Button text={'BESTÄLL MER'} fill={true} />
+                    <Button text={'BESTÄLL MER'} fill={true} color={"coal"} />
                     <Button text={'SE KVITTO'} fill={false} />
                 </footer>
             </main>

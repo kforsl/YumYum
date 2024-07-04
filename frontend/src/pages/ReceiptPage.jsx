@@ -106,7 +106,7 @@ function ReceiptPage() {
 
             </section>
             <footer className='fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full'>
-                <Button text={'GÖR EN NY BESTÄLLNING'} fill={true} />
+                <Button text={'GÖR EN NY BESTÄLLNING'} fill={true} color={"coal"} />
             </footer>
         </main>
     )
