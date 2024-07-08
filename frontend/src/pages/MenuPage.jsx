@@ -27,7 +27,7 @@ function MenuPage() {
         }}>
             <header className="flex flex-row justify-between mb-8" >
                 <img src="../src/assets/logo.svg" alt="" />
-                <CartButton />
+                <CartButton path={"/cart"} />
             </header>
             <section className="bg-gray-dark rounded">
                 <h1 className="text-3xl pl-4 py-8 font-bold "> MENY </h1>

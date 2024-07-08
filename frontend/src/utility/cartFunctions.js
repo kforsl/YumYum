@@ -40,7 +40,7 @@ export const removeFromCart = (clickedItem) => {
     }
 }
 
-const getCartFromStorage = () => {
+export const getCartFromStorage = () => {
     let response = sessionStorage.getItem("cart");
     return JSON.parse(response);
 }
