@@ -1,7 +1,7 @@
 export const addToCart = (clickedItem) => {
 
     const data = getCartFromStorage()
-    let cart = [];
+    const cart = [];
 
     if (data !== null) {
         data.forEach(dataItem => {
