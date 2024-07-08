@@ -1,7 +1,7 @@
-function Button({ text, fill }) {
+function Button({ text, fill, color }) {
     return (
         fill ?
-            <button className="bg-coal p-5 text-snow text-fira font-bold text-2xl w-full rounded">
+            <button className={`bg-${color} p-5 text-snow text-fira font-bold text-2xl w-full rounded`}>
                 {text}
             </button>
             :

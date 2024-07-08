@@ -101,7 +101,7 @@ function CartPage() {
                     <h3 className='text-3xl font-bold h-fit my-auto'>{totalPrice} SEK</h3>
 
                 </section>
-                <Button text={'TAKE MY MONEY!'} fill={true} />
+                <Button text={'TAKE MY MONEY!'} fill={true} color={"coal"} />
             </footer>
         </main>
     )
