@@ -1,8 +1,9 @@
 import MenuIngredient from './MenuIngredient';
+import { addToCart } from '../utility/cartFunctions';
 
 function MenuItem({ item }) {
     return (
-        <li className="p-4">
+        <li className="p-4" onClick={() => { addToCart(item) }}>
             <section className="flex flex-row justify-between mb-2 text-xl font-bold">
                 <h2 className="">{item.name}</h2>
                 <h3 className="">{item.price} SEK</h3>

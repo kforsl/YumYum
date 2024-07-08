@@ -1,3 +1,5 @@
+import { addToCart } from "../utility/cartFunctions"
+
 function MenuExtras({ dip }) {
 
     let dipName = dip.name.toLowerCase()
@@ -6,7 +8,7 @@ function MenuExtras({ dip }) {
     }
 
     return (
-        <p className="py-2 px-3 bg-gray-light rounded text-sm">{dipName}</p>
+        <p className="py-2 px-3 bg-gray-light rounded text-sm" onClick={() => { addToCart(dip) }}>{dipName}</p>
     )
 }
 
