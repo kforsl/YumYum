@@ -1,4 +1,6 @@
-function CartItem({ item }) {
+import { addToCart, getCartFromStorage, removeFromCart } from '../utility/cartFunctions';
+
+function CartItem({ item, handleCartState }) {
 
     return (
         <article className="py-2">
@@ -8,9 +10,25 @@ function CartItem({ item }) {
             </section>
 
             <section className="flex content-center gap-2">
-                <img className="p-1 bg-gray-lightest rounded-full aspect-square size-6" src="../src/assets/plus.svg" alt="" />
+                <img
+                    className="p-1 bg-gray-lightest rounded-full aspect-square size-6 ease-in-out duration-100 active:scale-90"
+                    src="../src/assets/plus.svg"
+                    alt="Add to cart"
+                    onClick={() => {
+                        addToCart(item)
+                        handleCartState()
+                    }}
+                />
                 <p className="text-sm my-auto"> {item.inCart} Stycken </p>
-                <img className="p-1 bg-gray-lightest rounded-full aspect-square size-6" src="../src/assets/minus.svg" alt="" />
+                <img
+                    className="p-1 bg-gray-lightest rounded-full aspect-square size-6 ease-in-out duration-100 active:scale-90"
+                    src="../src/assets/minus.svg"
+                    alt="Remove from cart"
+                    onClick={() => {
+                        removeFromCart(item)
+                        handleCartState()
+                    }}
+                />
             </section>
         </ article >
     )
