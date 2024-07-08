@@ -8,7 +8,7 @@ function MenuExtras({ dip }) {
     }
 
     return (
-        <p className="py-2 px-3 bg-gray-light rounded text-sm" onClick={() => { addToCart(dip) }}>{dipName}</p>
+        <p className="py-2 px-3 bg-gray-light rounded text-sm ease-in-out duration-100 active:bg-coal" onClick={() => { addToCart(dip) }}>{dipName}</p>
     )
 }
 

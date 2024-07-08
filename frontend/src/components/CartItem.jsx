@@ -11,7 +11,7 @@ function CartItem({ item, handleCartState }) {
 
             <section className="flex content-center gap-2">
                 <img
-                    className="p-1 bg-gray-lightest rounded-full aspect-square size-6"
+                    className="p-1 bg-gray-lightest rounded-full aspect-square size-6 ease-in-out duration-100 active:scale-90"
                     src="../src/assets/plus.svg"
                     alt="Add to cart"
                     onClick={() => {
@@ -21,7 +21,7 @@ function CartItem({ item, handleCartState }) {
                 />
                 <p className="text-sm my-auto"> {item.inCart} Stycken </p>
                 <img
-                    className="p-1 bg-gray-lightest rounded-full aspect-square size-6"
+                    className="p-1 bg-gray-lightest rounded-full aspect-square size-6 ease-in-out duration-100 active:scale-90"
                     src="../src/assets/minus.svg"
                     alt="Remove from cart"
                     onClick={() => {
