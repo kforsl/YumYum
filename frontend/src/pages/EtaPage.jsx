@@ -1,10 +1,35 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from './../components/Button';
+import axios from 'axios';
+
+const getOrder = async (setOrder) => {
+    try {
+        const id = location.pathname.split("/")[2]
+        const response = await axios.get(`http://localhost:8080/orders/${id}`)
+
+        if (response) {
+            setOrder(response.data.order)
+        }
+    }
+    catch (err) {
+        console.error('error vid skapande av order', err)
+    }
+}
 
 function EtaPage() {
 
-    const [isDone, setIsDone] = useState(true)
+    const [isDone, setIsDone] = useState(false)
+    const [order, setOrder] = useState([])
+
+    useEffect(() => {
+        getOrder(setOrder)
+    }, [])
+
+    useEffect(() => {
+        console.log(order);
+    }, [order])
+
 
     return (
         isDone ?
@@ -16,7 +41,7 @@ function EtaPage() {
                     <img src="../src/assets/boxtop.png" alt="" />
                     <h1 className="text-3xl px-20 text-center mb-14 font-bold"> DINA WONTONS ÄR KLARA! </h1>
                     <p className="text-center ">
-                        #4kjwsdf234k
+                        #{order.orderid.toUpperCase()}
                     </p>
                 </section>
                 <footer className='fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full'>
@@ -36,7 +61,7 @@ function EtaPage() {
                         ETA 5 MIN
                     </h2>
                     <p className="text-center ">
-                        #4kjwsdf234k
+                        #{order.orderid.toUpperCase()}
                     </p>
                 </section>
                 <footer className='fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full'>

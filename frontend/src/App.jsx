@@ -12,7 +12,7 @@ function App() {
         <div className="app">
             <Routes>
                 <Route path="/" element={<MenuPage />} />
-                <Route path="/eta" element={<EtaPage />} />
+                <Route path="/eta/:id" element={<EtaPage />} />
                 <Route path="/cart" element={<CartPage />} />
                 <Route path="/receipt" element={<ReceiptPage />} />
                 <Route path="/orders" element={<OrdersPage />} />

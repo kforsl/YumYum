@@ -45,7 +45,7 @@ export const getCartFromStorage = () => {
     return JSON.parse(response);
 }
 
-const handleCartInStorage = (cart) => {
+export const handleCartInStorage = (cart) => {
     if (cart.length > 0) {
         sessionStorage.setItem("cart", JSON.stringify(cart));
     } else {

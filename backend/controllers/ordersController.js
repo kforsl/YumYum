@@ -20,7 +20,7 @@ export const getOrders = async (req, res, next) => {
             success: true,
             status: 200,
             message: "Successfully got all orders",
-            data: allOrders
+            orders: allOrders
         })
     } catch (error) {
         next(error)
@@ -32,7 +32,7 @@ export const getOrders = async (req, res, next) => {
 export const createOrder = async (req, res, next) => {
     try {
         const cart = req.body.cart
-        const userid = global.currentUser.userid ? global.currentUser.userid : "guest"
+        const userid = !global.currentUser ? "guest" : global.currentUser.userid
 
         if (cart.length < 1) {
             const err = new Error("can't create an empty order")
@@ -55,7 +55,7 @@ export const createOrder = async (req, res, next) => {
             success: true,
             status: 200,
             message: "Successfully created order",
-            data: newOrder
+            order: newOrder
         })
 
     } catch (error) {
@@ -79,7 +79,7 @@ export const getUserOrders = async (req, res, next) => {
             success: true,
             status: 200,
             message: "Successfully got all the users orders",
-            data: userOrders
+            order: userOrders
         })
     } catch (error) {
         next(error)
@@ -90,22 +90,32 @@ export const getUserOrders = async (req, res, next) => {
 // @route /orders/:id
 export const getOrder = async (req, res, next) => {
     try {
+        const id = req.params.id
+        const order = await database.findOne({ orderid: id })
 
         if (global.currentUser === null) {
-            const err = new Error("You need to login to see your orders")
-            err.status = 400;
-            return next(err)
+
+            if (order.userid !== "guest") {
+                const err = new Error("You need to login to see your orders")
+                err.status = 400;
+                return next(err)
+            }
+
+            res.status(200).send({
+                success: true,
+                status: 200,
+                message: "Successfully got specific Guest order",
+                order: order
+            })
+
         }
-        const id = req.params.id
+
 
         if (global.currentUser.role !== "worker" && global.currentUser.role !== "customer") {
             const err = new Error("Access denied, you can't see this order")
             err.status = 400;
             return next(err)
         }
-
-        const order = await database.findOne({ orderid: id })
-        console.log(order);
 
         if (!order) {
             const err = new Error("No order found with that id")
@@ -123,8 +133,9 @@ export const getOrder = async (req, res, next) => {
             success: true,
             status: 200,
             message: "Successfully got specific order",
-            data: order
+            order: order
         })
+
     } catch (error) {
         next(error)
     }
