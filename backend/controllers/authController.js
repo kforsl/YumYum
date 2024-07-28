@@ -30,10 +30,10 @@ export const registerUser = async (req, res, next) => {
             return next(err)
         }
 
-        let generatedID = v4().slice(0, 6)
+        let generatedID = v4().slice(0, 6).toUpperCase()
         let foundUserid = await database.findOne({ userid: generatedID })
         while (foundUserid) {
-            generatedID = v4().slice(0, 6)
+            generatedID = v4().slice(0, 6).toUpperCase()
             foundUserid = await database.findOne({ userid: generatedID })
         }
 

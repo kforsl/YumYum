@@ -8,11 +8,11 @@ const database = new nedb({ filename: "./data/orders.db", autoload: true });
 // @route /orders
 export const getOrders = async (req, res, next) => {
     try {
-        if (global.currentUser.role !== "worker") {
-            const err = new Error("Access denied")
-            err.status = 400;
-            return next(err)
-        }
+        // if (global.currentUser.role !== "worker") {
+        //     const err = new Error("Access denied")
+        //     err.status = 400;
+        //     return next(err)
+        // }
 
         const allOrders = await database.find({})
 
@@ -33,6 +33,7 @@ export const createOrder = async (req, res, next) => {
     try {
         const cart = req.body.cart
         const userid = !global.currentUser ? "guest" : global.currentUser.userid
+        let totalPrice = 0
 
         if (cart.length < 1) {
             const err = new Error("can't create an empty order")
@@ -40,13 +41,17 @@ export const createOrder = async (req, res, next) => {
             return next(err)
         }
 
+        cart.forEach(item => {
+            totalPrice += item.price * item.inCart
+        });
+
         const newOrder = {
-            orderid: v4().slice(0, 8),
+            orderid: v4().slice(0, 8).toUpperCase(),
             orderCreated: new Date,
             orderDone: false,
             userid,
             order: cart,
-
+            totalPrice
         }
 
         database.insert(newOrder)

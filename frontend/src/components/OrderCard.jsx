@@ -1,42 +1,29 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import Button from "./Button"
 import OrderItem from "./OrderItem"
 
-const handleTotalPrice = (order, setTotalPrice) => {
-    let totalPrice = 0
-
-    order.forEach(item => {
-        totalPrice += item.price * item.inCart
-    });
-
-    setTotalPrice(totalPrice)
-
+const updateOrder = () => {
+    console.log("updateOrder");
 }
 
-const OrderCard = ({ isDone, order }) => {
-
-    const [totalPrice, setTotalPrice] = useState(0)
-
-    useEffect(() => {
-        handleTotalPrice(order, setTotalPrice)
-    }, [order])
+const OrderCard = ({ order }) => {
 
     {
         return (
-            isDone ?
+            order.isDone ?
                 <article className="bg-mint-light text-coal rounded p-2 flex flex-col gap-4">
                     < h2 className="text-center text-2xl font-medium" >
-                        #4KJWSDF234K
+                        #{order.orderid}
                     </h2 >
                     <section>
                         {
-                            order.map((item, index) => {
+                            order.order.map((item, index) => {
                                 return (
                                     <OrderItem item={item} key={index} />
                                 )
                             })
                         }
-                        <h3 className="text-right border-solid border-gray-lightest border-t mt-3"> {totalPrice} sek </h3>
+                        <h3 className="text-right border-solid border-gray-lightest border-t mt-3"> {order.totalPrice} sek </h3>
                     </section>
 
                     <section className="flex justify-center bg-gray-lightest rounded p-2">
@@ -46,25 +33,26 @@ const OrderCard = ({ isDone, order }) => {
                         text={"SERVERAD"}
                         fill={true}
                         color={"mint-dark"}
+                        handleClick={updateOrder}
                     />
                 </article >
                 :
                 <article className="bg-bacon text-coal rounded p-2 flex flex-col gap-4">
                     <h2 className="text-center text-2xl font-medium">
-                        #4KJWSDF234K
+                        #{order.orderid}
                     </h2>
-                    <section>
 
+                    <section>
                         {
-                            order.map((item, index) => {
+                            order.order.map((item, index) => {
                                 return (
                                     <OrderItem item={item} key={index} />
                                 )
                             })
                         }
-
-                        <h3 className="text-right border-solid border-gray-lightest border-t mt-3"> {totalPrice} sek </h3>
+                        <h3 className="text-right border-solid border-gray-lightest border-t mt-3"> {order.totalPrice} sek </h3>
                     </section>
+
 
                     <section className="flex justify-center bg-gray-lightest rounded p-2">
                         <h2 className="text-base font-normal"> VÄNTAT I <span> 2:33</span></h2>
@@ -73,6 +61,7 @@ const OrderCard = ({ isDone, order }) => {
                         text={"REDO ATT SERVERAS"}
                         fill={true}
                         color={"alert"}
+                        handleClick={updateOrder}
                     />
                 </article>
         )

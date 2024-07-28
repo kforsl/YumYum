@@ -24,7 +24,6 @@ const createOrder = async () => {
     const cart = getCartFromStorage()
 
     if (cart) {
-
         try {
             const response = await axios.post('http://localhost:8080/orders', { cart })
 
@@ -33,7 +32,6 @@ const createOrder = async () => {
                 handleCartInStorage([])
                 window.location.pathname = `/eta/${id}`
             }
-
         }
         catch (err) {
             console.error('error vid skapande av order', err)
