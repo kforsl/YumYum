@@ -1,23 +1,45 @@
+import axios from 'axios';
 import Button from '../components/Button';
 import CartItem from '../components/CartItem';
-import { getCartFromStorage } from '../utility/cartFunctions';
+import { getCartFromStorage, handleCartInStorage } from '../utility/cartFunctions';
 import CartButton from './../components/CartButton';
 import { useEffect, useState } from 'react';
 
 
 
-const handleTotalPrice = (cart, setTotalPrice) => {
+const handleTotalPrice = () => {
     let totalPrice = 0
+    const data = getCartFromStorage()
 
-    if (cart) {
-        cart.forEach(item => {
+    if (data) {
+        data.forEach(item => {
             totalPrice += item.price * item.inCart
         });
     }
 
+    return totalPrice
+}
+
+const createOrder = async () => {
+    const cart = getCartFromStorage()
+
+    if (cart) {
+        try {
+            const response = await axios.post('http://localhost:8080/orders', { cart })
+
+            if (response.status === 200) {
+                const id = response.data.order.orderid
+                handleCartInStorage([])
+                window.location.pathname = `/eta/${id}`
+            }
+        }
+        catch (err) {
+            console.error('error vid skapande av order', err)
+        }
+
+    }
 
 
-    setTotalPrice(totalPrice)
 
 }
 
@@ -39,7 +61,7 @@ function CartPage() {
     }, [])
 
     useEffect(() => {
-        handleTotalPrice(cart, setTotalPrice)
+        setTotalPrice(handleTotalPrice())
     }, [cart])
 
     return (
@@ -70,7 +92,11 @@ function CartPage() {
                     <h3 className='text-3xl font-bold h-fit my-auto'>{totalPrice} SEK</h3>
 
                 </section>
-                <Button text={'TAKE MY MONEY!'} fill={true} color={"coal"} />
+                <Button
+                    text={'TAKE MY MONEY!'}
+                    fill={true}
+                    color={"coal"}
+                    handleClick={createOrder} />
             </footer>
         </main>
     )
