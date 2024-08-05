@@ -1,72 +1,84 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import Button from "./Button"
-import OrderItem from "./OrderItem"
+import Button from "./Button";
+import OrderItem from "./OrderItem";
+import axios from "axios";
 
-const updateOrder = () => {
-    console.log("updateOrder");
-}
+const updateOrder = async (id, setOrderCard) => {
+    console.log("updateOrder" + " " + id);
+    try {
+        const response = await axios.post(`http://localhost:8080/orders/${id}`);
 
-const OrderCard = ({ order }) => {
+        if (response) {
+            console.log(response.data.order);
 
+            setOrderCard(response.data.order);
+            // location.reload();
+        }
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+const OrderCard = ({ order, index }) => {
+    const [orderCard, setOrderCard] = useState(order);
     {
-        return (
-            order.isDone ?
-                <article className="bg-mint-light text-coal rounded p-2 flex flex-col gap-4">
-                    < h2 className="text-center text-2xl font-medium" >
-                        #{order.orderid}
-                    </h2 >
-                    <section>
-                        {
-                            order.order.map((item, index) => {
-                                return (
-                                    <OrderItem item={item} key={index} />
-                                )
-                            })
-                        }
-                        <h3 className="text-right border-solid border-gray-lightest border-t mt-3"> {order.totalPrice} sek </h3>
+        return orderCard.orderDone ? (
+            <article
+                className={`bg-mint-light text-coal rounded p-2 flex flex-col justify-between gap-4 col-start-2`}
+            >
+                <h2 className="text-center text-2xl font-medium">
+                    #{orderCard.orderid}
+                </h2>
+                <section>
+                    {orderCard.order.map((item, index) => {
+                        return <OrderItem item={item} key={index} />;
+                    })}
+                    <h3 className="text-right border-solid border-gray-lightest border-t mt-3">
+                        {orderCard.totalPrice} sek
+                    </h3>
+                </section>
+                <section>
+                    <section className="flex justify-center bg-gray-lightest rounded p-2 mb-4">
+                        <h2 className="text-base font-normal">
+                            TILLAGNINGSTID <span> 4:21 </span>
+                        </h2>
                     </section>
+                    <Button text={"SERVERAD"} fill={true} color={"mint-dark"} />
+                </section>
+            </article>
+        ) : (
+            <article className="bg-bacon text-coal rounded p-2 justify-between flex flex-col gap-4 col-start-1">
+                <h2 className="text-center text-2xl font-medium">
+                    #{orderCard.orderid}
+                </h2>
 
-                    <section className="flex justify-center bg-gray-lightest rounded p-2">
-                        <h2 className="text-base font-normal"> TILLAGNINGSTID <span> 4:21 </span></h2>
-                    </section>
-                    <Button
-                        text={"SERVERAD"}
-                        fill={true}
-                        color={"mint-dark"}
-                        handleClick={updateOrder}
-                    />
-                </article >
-                :
-                <article className="bg-bacon text-coal rounded p-2 flex flex-col gap-4">
-                    <h2 className="text-center text-2xl font-medium">
-                        #{order.orderid}
-                    </h2>
+                <section>
+                    {orderCard.order.map((item, index) => {
+                        return <OrderItem item={item} key={index} />;
+                    })}
+                    <h3 className="text-right border-solid border-gray-lightest border-t mt-3">
+                        {orderCard.totalPrice} sek
+                    </h3>
+                </section>
 
-                    <section>
-                        {
-                            order.order.map((item, index) => {
-                                return (
-                                    <OrderItem item={item} key={index} />
-                                )
-                            })
-                        }
-                        <h3 className="text-right border-solid border-gray-lightest border-t mt-3"> {order.totalPrice} sek </h3>
-                    </section>
-
-
-                    <section className="flex justify-center bg-gray-lightest rounded p-2">
-                        <h2 className="text-base font-normal"> VÄNTAT I <span> 2:33</span></h2>
+                <section>
+                    <section className="flex justify-center bg-gray-lightest rounded p-2 mb-4">
+                        <h2 className="text-base font-normal">
+                            VÄNTAT I <span> 2:33</span>
+                        </h2>
                     </section>
                     <Button
                         text={"REDO ATT SERVERAS"}
                         fill={true}
                         color={"alert"}
-                        handleClick={updateOrder}
+                        handleClick={() =>
+                            updateOrder(orderCard.orderid, setOrderCard)
+                        }
                     />
-                </article>
-        )
+                </section>
+            </article>
+        );
     }
+};
 
-}
-
-export default OrderCard
+export default OrderCard;

@@ -2,7 +2,7 @@ const notFound = (req, res, next) => {
     const err = new Error("Page Not Found");
     err.status = 404;
 
-    next(err)
-}
+    next(err);
+};
 
-export default notFound
+export default notFound;
