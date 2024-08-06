@@ -1,6 +1,4 @@
-
 const OrderItem = ({ item }) => {
-
     return (
         <article className="flex justify-between text-base font-bold">
             <h3>{item.name}</h3>
@@ -9,7 +7,7 @@ const OrderItem = ({ item }) => {
                 <h4> {item.inCart * item.price} sek</h4>
             </div>
         </article>
-    )
-}
+    );
+};
 
-export default OrderItem
+export default OrderItem;

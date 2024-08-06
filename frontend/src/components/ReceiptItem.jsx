@@ -1,5 +1,4 @@
 function ReceiptItem({ item }) {
-
     return (
         <article className="pb-2">
             <section className="flex justify-between text-base font-bold">
@@ -8,9 +7,8 @@ function ReceiptItem({ item }) {
             </section>
 
             <p className="text-xs text-left"> {item.inCart} Stycken </p>
-
-        </ article >
-    )
+        </article>
+    );
 }
 
-export default ReceiptItem
+export default ReceiptItem;

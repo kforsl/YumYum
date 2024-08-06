@@ -8,13 +8,13 @@ const database = new nedb({ filename: "./data/users.db", autoload: true });
 // @route /auth/register
 export const registerUser = async (req, res, next) => {
     try {
-        if (global.currentUser !== null) {
-            const err = new Error(
-                "You are already logged in. No need for you to create a new user"
-            );
-            err.status = 400;
-            return next(err);
-        }
+        // if (global.currentUser !== null) {
+        //     const err = new Error(
+        //         "You are already logged in. No need for you to create a new user"
+        //     );
+        //     err.status = 400;
+        //     return next(err);
+        // }
         const username = req.body.username;
         const email = req.body.email;
 
@@ -50,7 +50,7 @@ export const registerUser = async (req, res, next) => {
         };
 
         database.insert(userInformation);
-        global.currentUser = userInformation;
+        // global.currentUser = userInformation;
         res.status(200).send({
             success: true,
             status: 200,
@@ -65,11 +65,11 @@ export const registerUser = async (req, res, next) => {
 // @route /auth/login
 export const loginUser = async (req, res, next) => {
     try {
-        if (global.currentUser !== null) {
-            const err = new Error("You are currently logged in");
-            err.status = 400;
-            return next(err);
-        }
+        // if (global.currentUser !== null) {
+        //     const err = new Error("You are currently logged in");
+        //     err.status = 400;
+        //     return next(err);
+        // }
         const foundUser = await database.findOne({
             username: req.body.username,
             password: req.body.password,
@@ -79,7 +79,7 @@ export const loginUser = async (req, res, next) => {
             err.status = 400;
             return next(err);
         }
-        global.currentUser = foundUser;
+        // global.currentUser = foundUser;
         res.status(200).send({
             success: true,
             status: 200,
@@ -94,12 +94,12 @@ export const loginUser = async (req, res, next) => {
 // @route /auth/logout
 export const logoutUser = async (req, res, next) => {
     try {
-        if (global.currentUser === null) {
-            const err = new Error("No user logged in to logout");
-            err.status = 400;
-            return next(err);
-        }
-        global.currentUser = null;
+        // if (global.currentUser === null) {
+        //     const err = new Error("No user logged in to logout");
+        //     err.status = 400;
+        //     return next(err);
+        // }
+        // global.currentUser = null;
         res.status(200).send({
             success: true,
             status: 200,

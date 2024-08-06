@@ -32,9 +32,10 @@ export const getOrders = async (req, res, next) => {
 export const createOrder = async (req, res, next) => {
     try {
         const cart = req.body.cart;
-        const userid = !global.currentUser
-            ? "guest"
-            : global.currentUser.userid;
+        const userid = "userid";
+        // const userid = !global.currentUser
+        //     ? "guest"
+        //     : global.currentUser.userid;
         let totalPrice = 0;
 
         if (cart.length < 1) {
@@ -73,15 +74,18 @@ export const createOrder = async (req, res, next) => {
 // @route /orders/user
 export const getUserOrders = async (req, res, next) => {
     try {
-        if (global.currentUser === null) {
-            const err = new Error("You need to login to see your orders");
-            err.status = 400;
-            return next(err);
-        }
+        // if (global.currentUser === null) {
+        //     const err = new Error("You need to login to see your orders");
+        //     err.status = 400;
+        //     return next(err);
+        // }
 
         const userOrders = await database.find({
-            userid: global.currentUser.userid,
+            userid: "userid",
         });
+        // const userOrders = await database.find({
+        //     userid: global.currentUser.userid,
+        // });
 
         res.status(200).send({
             success: true,
@@ -101,29 +105,29 @@ export const getOrder = async (req, res, next) => {
         const id = req.params.id;
         const order = await database.findOne({ orderid: id });
 
-        if (global.currentUser === null) {
-            if (order.userid !== "guest") {
-                const err = new Error("You need to login to see your orders");
-                err.status = 400;
-                return next(err);
-            }
+        // if (global.currentUser === null) {
+        //     if (order.userid !== "guest") {
+        //         const err = new Error("You need to login to see your orders");
+        //         err.status = 400;
+        //         return next(err);
+        //     }
 
-            res.status(200).send({
-                success: true,
-                status: 200,
-                message: "Successfully got specific Guest order",
-                order: order,
-            });
-        }
+        //     res.status(200).send({
+        //         success: true,
+        //         status: 200,
+        //         message: "Successfully got specific Guest order",
+        //         order: order,
+        //     });
+        // }
 
-        if (
-            global.currentUser.role !== "worker" &&
-            global.currentUser.role !== "customer"
-        ) {
-            const err = new Error("Access denied, you can't see this order");
-            err.status = 400;
-            return next(err);
-        }
+        // if (
+        //     global.currentUser.role !== "worker" &&
+        //     global.currentUser.role !== "customer"
+        // ) {
+        //     const err = new Error("Access denied, you can't see this order");
+        //     err.status = 400;
+        //     return next(err);
+        // }
 
         if (!order) {
             const err = new Error("No order found with that id");
@@ -131,11 +135,11 @@ export const getOrder = async (req, res, next) => {
             return next(err);
         }
 
-        if (global.currentUser.userid !== order.userid) {
-            const err = new Error("Access denied, you can't see this order");
-            err.status = 400;
-            return next(err);
-        }
+        // if (global.currentUser.userid !== order.userid) {
+        //     const err = new Error("Access denied, you can't see this order");
+        //     err.status = 400;
+        //     return next(err);
+        // }
 
         res.status(200).send({
             success: true,
@@ -163,7 +167,7 @@ export const completeOrder = async (req, res, next) => {
         // }
 
         const order = await database.findOne({ orderid: id });
-        console.log(order);
+
         if (!order) {
             const err = new Error("No order found with that id");
             err.status = 400;

@@ -1,7 +1,10 @@
-import { addToCart, getCartFromStorage, removeFromCart } from '../utility/cartFunctions';
+import {
+    addToCart,
+    getCartFromStorage,
+    removeFromCart,
+} from "../utility/cartFunctions";
 
 function CartItem({ item, handleCartState }) {
-
     return (
         <article className="py-2">
             <section className="flex justify-between text-2xl">
@@ -15,8 +18,8 @@ function CartItem({ item, handleCartState }) {
                     src="../src/assets/plus.svg"
                     alt="Add to cart"
                     onClick={() => {
-                        addToCart(item)
-                        handleCartState()
+                        addToCart(item);
+                        handleCartState();
                     }}
                 />
                 <p className="text-sm my-auto"> {item.inCart} Stycken </p>
@@ -25,13 +28,13 @@ function CartItem({ item, handleCartState }) {
                     src="../src/assets/minus.svg"
                     alt="Remove from cart"
                     onClick={() => {
-                        removeFromCart(item)
-                        handleCartState()
+                        removeFromCart(item);
+                        handleCartState();
                     }}
                 />
             </section>
-        </ article >
-    )
+        </article>
+    );
 }
 
-export default CartItem
+export default CartItem;

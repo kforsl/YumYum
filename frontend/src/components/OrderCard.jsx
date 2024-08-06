@@ -4,13 +4,10 @@ import OrderItem from "./OrderItem";
 import axios from "axios";
 
 const updateOrder = async (id, setOrderCard) => {
-    console.log("updateOrder" + " " + id);
     try {
         const response = await axios.post(`http://localhost:8080/orders/${id}`);
 
         if (response) {
-            console.log(response.data.order);
-
             setOrderCard(response.data.order);
             // location.reload();
         }
