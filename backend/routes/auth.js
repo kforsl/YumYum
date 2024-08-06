@@ -4,6 +4,7 @@ import {
     loginUser,
     logoutUser,
 } from "../controllers/authController.js";
+import authenticateToken from "../middlewares/authenticateToken.js";
 
 const router = Router();
 
@@ -17,6 +18,6 @@ router.post("/login", loginUser);
 
 // http://localhost:8080/auth/logout
 // logout current user
-router.post("/logout", logoutUser);
+router.post("/logout", authenticateToken, logoutUser);
 
 export default router;

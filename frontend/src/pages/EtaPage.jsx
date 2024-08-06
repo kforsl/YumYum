@@ -5,8 +5,13 @@ import { Link } from "react-router-dom";
 
 const getOrder = async (setOrder) => {
     try {
+        const token = sessionStorage.getItem("accessToken");
         const id = location.pathname.split("/")[2];
-        const response = await axios.get(`http://localhost:8080/orders/${id}`);
+        const response = await axios.get(`http://localhost:8080/orders/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        });
 
         if (response) {
             setOrder(response.data.order);
@@ -39,8 +44,17 @@ function EtaPage() {
                     </p>
                 </section>
                 <footer className="fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full">
-                    <Button text={"BESTÄLL MER"} fill={true} color={"coal"} />
-                    <Button text={"SE KVITTO"} fill={false} />
+                    <Link to={"/menu"}>
+                        <Button
+                            text={"BESTÄLL MER"}
+                            fill={true}
+                            color={"coal"}
+                            handleClick={() => console.log("click")}
+                        />
+                    </Link>
+                    <Link to={`/receipt/${order.orderid}`}>
+                        <Button text={"SE KVITTO"} fill={false} />
+                    </Link>
                 </footer>
             </main>
         ) : (
@@ -59,7 +73,7 @@ function EtaPage() {
                     <p className="text-center ">#{order.orderid}</p>
                 </section>
                 <footer className="fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full">
-                    <Link to={"/"}>
+                    <Link to={"/menu"}>
                         <Button
                             text={"BESTÄLL MER"}
                             fill={true}

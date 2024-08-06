@@ -6,8 +6,13 @@ import axios from "axios";
 
 const getOrder = async (setOrder) => {
     try {
+        const token = sessionStorage.getItem("accessToken");
         const id = location.pathname.split("/")[2];
-        const response = await axios.get(`http://localhost:8080/orders/${id}`);
+        const response = await axios.get(`http://localhost:8080/orders/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        });
 
         if (response) {
             setOrder(response.data.order);
@@ -36,7 +41,7 @@ function ReceiptPage() {
                     alt=""
                 />
                 <h1 className="text-2xl font-bold">KVITTO</h1>
-                <p className="text-xs font-bold"> #4KJWSDF234K </p>
+                <p className="text-xs font-bold"> #{order.orderid} </p>
                 <section className="p-4">
                     {order.order.map((item, index) => {
                         return <ReceiptItem item={item} key={index} />;
@@ -59,11 +64,12 @@ function ReceiptPage() {
                 </section>
             </section>
             <footer className="fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full">
-                <Link to={"/"}>
+                <Link to={"/menu"}>
                     <Button
                         text={"GÖR EN NY BESTÄLLNING"}
                         fill={true}
                         color={"coal"}
+                        handleClick={() => location.reload()}
                     />
                 </Link>
             </footer>

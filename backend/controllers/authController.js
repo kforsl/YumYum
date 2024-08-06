@@ -1,5 +1,7 @@
+import {} from "dotenv/config";
 import nedb from "nedb-promises";
 import { v4 } from "uuid";
+import jwt from "jsonwebtoken";
 
 // Create user database
 const database = new nedb({ filename: "./data/users.db", autoload: true });
@@ -8,28 +10,13 @@ const database = new nedb({ filename: "./data/users.db", autoload: true });
 // @route /auth/register
 export const registerUser = async (req, res, next) => {
     try {
-        // if (global.currentUser !== null) {
-        //     const err = new Error(
-        //         "You are already logged in. No need for you to create a new user"
-        //     );
-        //     err.status = 400;
-        //     return next(err);
-        // }
         const username = req.body.username;
-        const email = req.body.email;
+        const foundUser = await database.findOne({ username });
 
-        const foundUsername = await database.findOne({ username });
-        const foundEmail = await database.findOne({ email });
-
-        if (foundUsername) {
+        if (foundUser) {
             const err = new Error(
                 "Username is already in used try another one"
             );
-            err.status = 400;
-            return next(err);
-        }
-        if (foundEmail) {
-            const err = new Error("Email is already in used try another one");
             err.status = 400;
             return next(err);
         }
@@ -44,17 +31,22 @@ export const registerUser = async (req, res, next) => {
         const userInformation = {
             userid: generatedID,
             username,
-            email,
             password: req.body.password,
             role: "customer",
         };
 
         database.insert(userInformation);
-        // global.currentUser = userInformation;
+
+        const accessToken = jwt.sign(
+            userInformation,
+            process.env.ACCESS_TOKEN_SECRET
+        );
+
         res.status(200).send({
             success: true,
             status: 200,
             message: "User Successfully created, Welcome to Yum Yum.",
+            accessToken: accessToken,
         });
     } catch (error) {
         next(error);
@@ -65,25 +57,28 @@ export const registerUser = async (req, res, next) => {
 // @route /auth/login
 export const loginUser = async (req, res, next) => {
     try {
-        // if (global.currentUser !== null) {
-        //     const err = new Error("You are currently logged in");
-        //     err.status = 400;
-        //     return next(err);
-        // }
         const foundUser = await database.findOne({
             username: req.body.username,
             password: req.body.password,
         });
+
         if (!foundUser) {
             const err = new Error("validation fail try again");
-            err.status = 400;
+            err.status = 405;
             return next(err);
         }
-        // global.currentUser = foundUser;
+
+        const accessToken = jwt.sign(
+            foundUser,
+            process.env.ACCESS_TOKEN_SECRET
+        );
+
         res.status(200).send({
             success: true,
             status: 200,
             message: "Welcome back to Yum Yum, you are now logged in.",
+            accessToken: accessToken,
+            role: foundUser.role,
         });
     } catch (error) {
         next(error);
