@@ -6,8 +6,13 @@ import axios from "axios";
 
 const getOrder = async (setOrder) => {
     try {
+        const token = sessionStorage.getItem("accessToken");
         const id = location.pathname.split("/")[2];
-        const response = await axios.get(`http://localhost:8080/orders/${id}`);
+        const response = await axios.get(`http://localhost:8080/orders/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        });
 
         if (response) {
             setOrder(response.data.order);
@@ -27,16 +32,16 @@ function ReceiptPage() {
     return order.hasOwnProperty("userid") ? (
         <main className="bg-gray-dark min-h-svh text-white font-fira">
             <header className="mb-16 pt-4 pl-4">
-                <img src="../src/assets/logo.svg" alt="" />
+                <img src="../src/assets/logo.svg" alt="YumYum Logo" />
             </header>
             <section className="flex flex-col bg-white text-coal text-center pt-8 rounded mx-4">
                 <img
                     className="max-w-10 mx-auto mb-2.5"
                     src="../src/assets/logo-color.svg"
-                    alt=""
+                    alt="YumYum logo"
                 />
                 <h1 className="text-2xl font-bold">KVITTO</h1>
-                <p className="text-xs font-bold"> #4KJWSDF234K </p>
+                <p className="text-xs font-bold"> #{order.orderid} </p>
                 <section className="p-4">
                     {order.order.map((item, index) => {
                         return <ReceiptItem item={item} key={index} />;
@@ -59,7 +64,7 @@ function ReceiptPage() {
                 </section>
             </section>
             <footer className="fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full">
-                <Link to={"/"}>
+                <Link to={"/menu"}>
                     <Button
                         text={"GÖR EN NY BESTÄLLNING"}
                         fill={true}

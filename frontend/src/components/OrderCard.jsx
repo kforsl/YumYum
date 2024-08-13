@@ -1,22 +1,30 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 import OrderItem from "./OrderItem";
 import axios from "axios";
 
 const updateOrder = async (id, setOrderCard) => {
     try {
-        const response = await axios.post(`http://localhost:8080/orders/${id}`);
+        const token = sessionStorage.getItem("accessToken");
+        const response = await axios.post(
+            `http://localhost:8080/orders/${id}`,
+            {},
+            {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            }
+        );
 
         if (response) {
             setOrderCard(response.data.order);
-            // location.reload();
         }
     } catch (err) {
         console.log(err);
     }
 };
 
-const OrderCard = ({ order, index }) => {
+const OrderCard = ({ order }) => {
     const [orderCard, setOrderCard] = useState(order);
     {
         return orderCard.orderDone ? (

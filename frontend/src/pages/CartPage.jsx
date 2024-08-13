@@ -26,9 +26,18 @@ const createOrder = async () => {
 
     if (cart) {
         try {
-            const response = await axios.post("http://localhost:8080/orders", {
-                cart,
-            });
+            const token = sessionStorage.getItem("accessToken");
+            const response = await axios.post(
+                "http://localhost:8080/orders",
+                {
+                    cart,
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
             if (response.status === 200) {
                 const id = response.data.order.orderid;
@@ -64,7 +73,7 @@ function CartPage() {
     return (
         <main className="bg-white min-h-svh font-fira text-coal font-bold">
             <header className="bg-white sticky top-0 left-0 p-4 flex justify-end w-full">
-                <CartButton path={"/"} />
+                <CartButton path={"/menu"} />
             </header>
 
             <section className="divide-y divide-dashed px-4 pb-52">

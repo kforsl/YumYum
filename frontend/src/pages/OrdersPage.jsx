@@ -4,7 +4,13 @@ import axios from "axios";
 
 const getAllOrders = async (setOrders) => {
     try {
-        const response = await axios.get(`http://localhost:8080/orders`);
+        const token = sessionStorage.getItem("accessToken");
+        const id = location.pathname.split("/")[2];
+        const response = await axios.get(`http://localhost:8080/orders`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        });
 
         if (response) {
             setOrders(response.data.orders);
@@ -24,7 +30,7 @@ function OrdersPage() {
     return (
         <main className="bg-coal min-h-svh p-8">
             <header className="flex content-center gap-6 mb-6">
-                <img src="../src/assets/logo.svg" alt="" />
+                <img src="../src/assets/logo.svg" alt="YumYum logo" />
                 <h1 className="text-white text-[42px] font-bold">
                     KITCHEN VIEW
                 </h1>
@@ -46,22 +52,6 @@ function OrdersPage() {
                 ) : (
                     <h1> No item </h1>
                 )}
-
-                {/* <article className="text-white text-2xl font-bold flex-1 flex flex-col gap-4">
-                    <div className="flex gap-4">
-                        <h2> Done</h2>
-                        <div className="w-full bg-gray-light h-px my-auto"></div>
-                    </div>
-                    {orders.length > 0 ? (
-                        orders.map((order, index) => {
-                            if (order.orderDone === true) {
-                                return <OrderCard order={order} key={index} />;
-                            }
-                        })
-                    ) : (
-                        <h1> No item </h1>
-                    )}
-                </article> */}
             </section>
         </main>
     );

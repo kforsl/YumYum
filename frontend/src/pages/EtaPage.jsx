@@ -5,8 +5,13 @@ import { Link } from "react-router-dom";
 
 const getOrder = async (setOrder) => {
     try {
+        const token = sessionStorage.getItem("accessToken");
         const id = location.pathname.split("/")[2];
-        const response = await axios.get(`http://localhost:8080/orders/${id}`);
+        const response = await axios.get(`http://localhost:8080/orders/${id}`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+        });
 
         if (response) {
             setOrder(response.data.order);
@@ -27,10 +32,13 @@ function EtaPage() {
         order.orderDone ? (
             <main className="bg-mint-dark min-h-svh text-white font-fira">
                 <header className="p-4">
-                    <img src="../src/assets/logo.svg" alt="" />
+                    <img src="../src/assets/logo.svg" alt="YumYum logo" />
                 </header>
                 <section>
-                    <img src="../src/assets/boxtop.png" alt="" />
+                    <img
+                        src="../src/assets/boxtop.png"
+                        alt="image of a boxtop"
+                    />
                     <h1 className="text-3xl px-20 text-center mb-14 font-bold">
                         DINA WONTONS ÄR KLARA!
                     </h1>
@@ -39,17 +47,29 @@ function EtaPage() {
                     </p>
                 </section>
                 <footer className="fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full">
-                    <Button text={"BESTÄLL MER"} fill={true} color={"coal"} />
-                    <Button text={"SE KVITTO"} fill={false} />
+                    <Link to={"/menu"}>
+                        <Button
+                            text={"BESTÄLL MER"}
+                            fill={true}
+                            color={"coal"}
+                            handleClick={() => console.log("click")}
+                        />
+                    </Link>
+                    <Link to={`/receipt/${order.orderid}`}>
+                        <Button text={"SE KVITTO"} fill={false} />
+                    </Link>
                 </footer>
             </main>
         ) : (
             <main className="bg-gray min-h-svh text-white font-fira">
                 <header className="p-4">
-                    <img src="../src/assets/logo.svg" alt="" />
+                    <img src="../src/assets/logo.svg" alt="YumYum logo" />
                 </header>
                 <section>
-                    <img src="../src/assets/boxtop.png" alt="" />
+                    <img
+                        src="../src/assets/boxtop.png"
+                        alt="image of a boxtop"
+                    />
                     <h1 className="text-3xl px-12 text-center mb-4">
                         DINA WONTONS TILLAGAS!
                     </h1>
@@ -59,7 +79,7 @@ function EtaPage() {
                     <p className="text-center ">#{order.orderid}</p>
                 </section>
                 <footer className="fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full">
-                    <Link to={"/"}>
+                    <Link to={"/menu"}>
                         <Button
                             text={"BESTÄLL MER"}
                             fill={true}

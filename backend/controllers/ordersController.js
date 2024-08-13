@@ -32,10 +32,9 @@ export const getOrders = async (req, res, next) => {
 export const createOrder = async (req, res, next) => {
     try {
         const cart = req.body.cart;
-        const userid = "userid";
-        // const userid = !global.currentUser
-        //     ? "guest"
-        //     : global.currentUser.userid;
+        const user = req.user;
+
+        const userid = user.userid;
         let totalPrice = 0;
 
         if (cart.length < 1) {
@@ -102,7 +101,9 @@ export const getUserOrders = async (req, res, next) => {
 // @route /orders/:id
 export const getOrder = async (req, res, next) => {
     try {
+        const user = req.user;
         const id = req.params.id;
+
         const order = await database.findOne({ orderid: id });
 
         // if (global.currentUser === null) {
@@ -135,11 +136,11 @@ export const getOrder = async (req, res, next) => {
             return next(err);
         }
 
-        // if (global.currentUser.userid !== order.userid) {
-        //     const err = new Error("Access denied, you can't see this order");
-        //     err.status = 400;
-        //     return next(err);
-        // }
+        if (user.userid !== order.userid) {
+            const err = new Error("Access denied, you can't see this order");
+            err.status = 400;
+            return next(err);
+        }
 
         res.status(200).send({
             success: true,
