@@ -13,8 +13,6 @@ import errorHandler from "./middlewares/errorHandler.js";
 const app = express();
 const PORT = 8080;
 
-// global.currentUser = null;
-
 // Middleware
 app.use(express.json());
 app.use(cors());
