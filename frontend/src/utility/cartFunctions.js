@@ -1,10 +1,9 @@
 export const addToCart = (clickedItem) => {
-
-    const data = getCartFromStorage()
+    const data = getCartFromStorage();
     const cart = [];
 
     if (data !== null) {
-        data.forEach(dataItem => {
+        data.forEach((dataItem) => {
             if (dataItem.name === clickedItem.name) {
                 dataItem.inCart++;
             }
@@ -12,43 +11,41 @@ export const addToCart = (clickedItem) => {
         });
     }
 
-    if (data === null || !cart.find(i => i.name === clickedItem.name)) {
+    if (data === null || !cart.find((i) => i.name === clickedItem.name)) {
         const cartItem = { ...clickedItem };
         cartItem.inCart = 1;
         cart.push(cartItem);
     }
 
-    handleCartInStorage(cart)
-
-}
+    handleCartInStorage(cart);
+};
 
 export const removeFromCart = (clickedItem) => {
-
-    const data = getCartFromStorage()
-    const cart = []
+    const data = getCartFromStorage();
+    const cart = [];
 
     if (data !== null) {
-        data.forEach(dataItem => {
+        data.forEach((dataItem) => {
             if (dataItem.name === clickedItem.name) {
                 dataItem.inCart--;
             }
             if (dataItem.inCart > 0) {
                 cart.push(dataItem);
             }
-            handleCartInStorage(cart)
+            handleCartInStorage(cart);
         });
     }
-}
+};
 
 export const getCartFromStorage = () => {
     let response = sessionStorage.getItem("cart");
     return JSON.parse(response);
-}
+};
 
 export const handleCartInStorage = (cart) => {
     if (cart.length > 0) {
         sessionStorage.setItem("cart", JSON.stringify(cart));
     } else {
-        sessionStorage.removeItem("cart")
+        sessionStorage.removeItem("cart");
     }
-}
+};

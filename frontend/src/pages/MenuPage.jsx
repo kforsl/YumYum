@@ -3,6 +3,7 @@ import MenuItem from "../components/MenuItem.jsx";
 import axios from "axios";
 import MenuExtras from "../components/MenuExtras.jsx";
 import CartButton from "../components/CartButton.jsx";
+import { getCartFromStorage } from "../utility/cartFunctions.js";
 
 const fetchData = async (setMenuItems) => {
     try {
@@ -13,11 +14,25 @@ const fetchData = async (setMenuItems) => {
     }
 };
 
+const getLengthOfCart = (setCartLength) => {
+    const cart = getCartFromStorage();
+
+    let cartLength = 0;
+    if (cart)
+        cart.forEach((item) => {
+            cartLength += item.inCart;
+        });
+
+    setCartLength(cartLength);
+};
+
 function MenuPage() {
     const [menuItems, setMenuItems] = useState({});
+    const [cartLength, setCartLength] = useState(0);
 
     useEffect(() => {
         fetchData(setMenuItems);
+        getLengthOfCart(setCartLength);
     }, []);
 
     return (
@@ -32,8 +47,7 @@ function MenuPage() {
                 <div className="relative">
                     <CartButton path={"/cart"} />
                     <p className="bg-alert w-6 h-6 rounded-full flex mx-auto justify-center absolute left-auto -right-2 -top-2">
-                        {" "}
-                        0{" "}
+                        {cartLength}
                     </p>
                 </div>
             </header>
@@ -43,7 +57,15 @@ function MenuPage() {
                 {menuItems.wontons ? (
                     <ul className="divide-y divide-dashed">
                         {menuItems.wontons.map((item, index) => {
-                            return <MenuItem key={index} item={item} />;
+                            return (
+                                <MenuItem
+                                    key={index}
+                                    item={item}
+                                    getLengthOfCart={() =>
+                                        getLengthOfCart(setCartLength)
+                                    }
+                                />
+                            );
                         })}
                     </ul>
                 ) : (
@@ -57,7 +79,15 @@ function MenuPage() {
                     {menuItems.dip ? (
                         <section className="flex flex-row gap-4 flex-wrap">
                             {menuItems.dip.map((dip, index) => {
-                                return <MenuExtras key={index} dip={dip} />;
+                                return (
+                                    <MenuExtras
+                                        key={index}
+                                        dip={dip}
+                                        getLengthOfCart={() =>
+                                            getLengthOfCart(setCartLength)
+                                        }
+                                    />
+                                );
                             })}
                         </section>
                     ) : (
