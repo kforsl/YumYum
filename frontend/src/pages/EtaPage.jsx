@@ -32,10 +32,13 @@ function EtaPage() {
         order.orderDone ? (
             <main className="bg-mint-dark min-h-svh text-white font-fira">
                 <header className="p-4">
-                    <img src="../src/assets/logo.svg" alt="" />
+                    <img src="../src/assets/logo.svg" alt="YumYum logo" />
                 </header>
                 <section>
-                    <img src="../src/assets/boxtop.png" alt="" />
+                    <img
+                        src="../src/assets/boxtop.png"
+                        alt="image of a boxtop"
+                    />
                     <h1 className="text-3xl px-20 text-center mb-14 font-bold">
                         DINA WONTONS ÄR KLARA!
                     </h1>
@@ -60,10 +63,13 @@ function EtaPage() {
         ) : (
             <main className="bg-gray min-h-svh text-white font-fira">
                 <header className="p-4">
-                    <img src="../src/assets/logo.svg" alt="" />
+                    <img src="../src/assets/logo.svg" alt="YumYum logo" />
                 </header>
                 <section>
-                    <img src="../src/assets/boxtop.png" alt="" />
+                    <img
+                        src="../src/assets/boxtop.png"
+                        alt="image of a boxtop"
+                    />
                     <h1 className="text-3xl px-12 text-center mb-4">
                         DINA WONTONS TILLAGAS!
                     </h1>

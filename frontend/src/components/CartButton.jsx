@@ -4,7 +4,7 @@ function CartButton({ path }) {
     return (
         <Link to={path}>
             <div className="bg-white p-4 rounded">
-                <img src="../src/assets/cart.svg" alt="" />
+                <img src="../src/assets/cart.svg" alt="Shoppingcart icon" />
             </div>
         </Link>
     );

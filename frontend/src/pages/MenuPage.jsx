@@ -28,7 +28,7 @@ function MenuPage() {
             }}
         >
             <header className="flex flex-row justify-between mb-8">
-                <img src="../src/assets/logo.svg" alt="" />
+                <img src="../src/assets/logo.svg" alt="YumYum logo" />
                 <div className="relative">
                     <CartButton path={"/cart"} />
                     <p className="bg-alert w-6 h-6 rounded-full flex mx-auto justify-center absolute left-auto -right-2 -top-2">

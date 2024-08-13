@@ -31,9 +31,10 @@ const submitLoginForm = async (e) => {
         passwordInput.value = "";
         sessionStorage.setItem("accessToken", response.data.accessToken);
 
-        console.log(response.data);
-
-        window.location.pathname = "/menu";
+        console.log(response.data.role);
+        if (response.data.role === "customer")
+            window.location.pathname = "/menu";
+        else window.location.pathname = "/orders";
     } catch (error) {
         console.log(error);
     }
@@ -48,7 +49,7 @@ function LoginPage() {
             }}
         >
             <header className="flex flex-row justify-between mb-8">
-                <img src="../src/assets/logo.svg" alt="" />
+                <img src="../src/assets/logo.svg" alt="YumYum Logo" />
             </header>
             <section className="bg-gray-dark rounded p-4 min-h-[572px] flex flex-col justify-between">
                 <h1 className="text-3xl py-8 font-bold "> Login </h1>

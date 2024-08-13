@@ -32,13 +32,13 @@ function ReceiptPage() {
     return order.hasOwnProperty("userid") ? (
         <main className="bg-gray-dark min-h-svh text-white font-fira">
             <header className="mb-16 pt-4 pl-4">
-                <img src="../src/assets/logo.svg" alt="" />
+                <img src="../src/assets/logo.svg" alt="YumYum Logo" />
             </header>
             <section className="flex flex-col bg-white text-coal text-center pt-8 rounded mx-4">
                 <img
                     className="max-w-10 mx-auto mb-2.5"
                     src="../src/assets/logo-color.svg"
-                    alt=""
+                    alt="YumYum logo"
                 />
                 <h1 className="text-2xl font-bold">KVITTO</h1>
                 <p className="text-xs font-bold"> #{order.orderid} </p>
@@ -69,7 +69,6 @@ function ReceiptPage() {
                         text={"GÖR EN NY BESTÄLLNING"}
                         fill={true}
                         color={"coal"}
-                        handleClick={() => location.reload()}
                     />
                 </Link>
             </footer>

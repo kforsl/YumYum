@@ -53,7 +53,7 @@ function RegisterPage() {
             }}
         >
             <header className="flex flex-row justify-between mb-8">
-                <img src="../src/assets/logo.svg" alt="" />
+                <img src="../src/assets/logo.svg" alt="YumYum logo" />
             </header>
             <section className="bg-gray-dark rounded p-4 my-auto">
                 <h1 className="text-3xl py-8 font-bold "> Register User </h1>

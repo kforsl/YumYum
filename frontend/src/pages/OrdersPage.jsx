@@ -30,7 +30,7 @@ function OrdersPage() {
     return (
         <main className="bg-coal min-h-svh p-8">
             <header className="flex content-center gap-6 mb-6">
-                <img src="../src/assets/logo.svg" alt="" />
+                <img src="../src/assets/logo.svg" alt="YumYum logo" />
                 <h1 className="text-white text-[42px] font-bold">
                     KITCHEN VIEW
                 </h1>
