@@ -1,9 +1,9 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const submitRegisterForm = async (e) => {
+const submitRegisterForm = async (e, setErrorMessage) => {
     e.preventDefault();
     try {
         const usernameInput = document.querySelector("#usernameRegisterForm");
@@ -16,12 +16,13 @@ const submitRegisterForm = async (e) => {
         const passwordValue = passwordInput.value;
         const repeatPasswordValue = repeatPasswordInput.value;
 
-        if (!usernameValue) return console.log("no username");
-        if (!passwordValue) return console.log("no password");
-        if (!repeatPasswordValue) return console.log("enter password again");
+        if (!usernameValue) return setErrorMessage("no username");
+        if (!passwordValue) return setErrorMessage("no password");
+        if (!repeatPasswordValue)
+            return setErrorMessage("enter password again");
 
         if (passwordValue !== repeatPasswordValue)
-            return console.log("password not matching");
+            return setErrorMessage("password not matching");
 
         const user = {
             username: usernameValue,
@@ -40,11 +41,12 @@ const submitRegisterForm = async (e) => {
         sessionStorage.setItem("accessToken", response.data.accessToken);
         window.location.pathname = "/menu";
     } catch (error) {
-        console.log(error);
+        setErrorMessage(error.response.data.message);
     }
 };
 
 function RegisterPage() {
+    const [errorMessage, setErrorMessage] = useState("");
     return (
         <main
             className="p-4 bg-fixed text-snow bg-mint min-h-svh font-fira"
@@ -57,6 +59,9 @@ function RegisterPage() {
             </header>
             <section className="bg-gray-dark rounded p-4 my-auto">
                 <h1 className="text-3xl py-8 font-bold "> Register User </h1>
+                <h2 className="text-lg text-alert pb-4 min-h-11">
+                    {errorMessage}
+                </h2>
                 <form className="flex flex-col gap-4 mb-4">
                     <input
                         className="py-6 px-2 text-coal rounded text-lg"
@@ -82,7 +87,9 @@ function RegisterPage() {
                         text={"Register"}
                         fill={true}
                         color={"mint-dark"}
-                        handleClick={submitRegisterForm}
+                        handleClick={(e) =>
+                            submitRegisterForm(e, setErrorMessage)
+                        }
                     />
                     <Link to={"/login"}>
                         <Button text={"Login Page"} />

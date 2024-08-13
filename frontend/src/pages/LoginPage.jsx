@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../components/Button";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const submitLoginForm = async (e) => {
+const submitLoginForm = async (e, setErrorMessage) => {
     e.preventDefault();
     try {
         const usernameInput = document.querySelector("#usernameLoginForm");
@@ -13,9 +13,9 @@ const submitLoginForm = async (e) => {
         const passwordValue = passwordInput.value;
 
         if (!usernameValue && !passwordValue)
-            return console.log("no username and password");
-        if (!usernameValue) return console.log("no username");
-        if (!passwordValue) return console.log("no password");
+            return setErrorMessage("no username and password");
+        if (!usernameValue) return setErrorMessage("no username");
+        if (!passwordValue) return setErrorMessage("no password");
 
         const user = {
             username: usernameValue,
@@ -36,11 +36,12 @@ const submitLoginForm = async (e) => {
             window.location.pathname = "/menu";
         else window.location.pathname = "/orders";
     } catch (error) {
-        console.log(error);
+        setErrorMessage(error.response.data.message);
     }
 };
 
 function LoginPage() {
+    const [errorMessage, setErrorMessage] = useState("");
     return (
         <main
             className="p-4 bg-fixed text-snow bg-mint min-h-svh font-fira"
@@ -52,7 +53,10 @@ function LoginPage() {
                 <img src="../src/assets/logo.svg" alt="YumYum Logo" />
             </header>
             <section className="bg-gray-dark rounded p-4 min-h-[572px] flex flex-col justify-between">
-                <h1 className="text-3xl py-8 font-bold "> Login </h1>
+                <h1 className="text-3xl pt-8 pb-4 font-bold "> Login </h1>
+                <h2 className="text-lg text-alert pb-4 min-h-11">
+                    {errorMessage}
+                </h2>
                 <form className="flex flex-col gap-4 mb-auto">
                     <input
                         className="py-6 px-2 text-coal rounded text-lg"
@@ -72,7 +76,7 @@ function LoginPage() {
                         text={"Login"}
                         fill={true}
                         color={"mint-dark"}
-                        handleClick={submitLoginForm}
+                        handleClick={(e) => submitLoginForm(e, setErrorMessage)}
                     />
                     <Link to={"/Register"}>
                         <Button text={"Register Page"} />
