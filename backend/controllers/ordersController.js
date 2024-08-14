@@ -8,12 +8,6 @@ const database = new nedb({ filename: "./data/orders.db", autoload: true });
 // @route /orders
 export const getOrders = async (req, res, next) => {
     try {
-        // if (global.currentUser.role !== "worker") {
-        //     const err = new Error("Access denied")
-        //     err.status = 400;
-        //     return next(err)
-        // }
-
         const allOrders = await database.find({});
 
         res.status(200).send({
@@ -47,12 +41,20 @@ export const createOrder = async (req, res, next) => {
             totalPrice += item.price * item.inCart;
         });
 
+        let waitTime = 6;
+        const waitingOrders = await database.find({ orderDone: false });
+
+        waitingOrders.forEach((order) => {
+            waitTime += 2;
+        });
+
         const newOrder = {
             orderid: v4().slice(0, 8).toUpperCase(),
             orderCreated: new Date(),
             orderDone: false,
             userid,
             order: cart,
+            est: waitTime,
             totalPrice,
         };
 
@@ -158,6 +160,7 @@ export const getOrder = async (req, res, next) => {
 export const completeOrder = async (req, res, next) => {
     try {
         const id = req.params.id;
+        const updatedOrder = req.body.order;
 
         // if (global.currentUser.role !== "worker") {
         //     const err = new Error(
@@ -174,15 +177,14 @@ export const completeOrder = async (req, res, next) => {
             err.status = 400;
             return next(err);
         }
-        order.orderDone = true;
 
-        database.update({ orderid: order.orderid }, order);
+        database.update({ orderid: order.orderid }, updatedOrder);
 
         res.status(200).send({
             success: true,
             status: 200,
             message: "Successfully change an order to completed",
-            order: order,
+            order: updatedOrder,
         });
     } catch (error) {
         next(error);
