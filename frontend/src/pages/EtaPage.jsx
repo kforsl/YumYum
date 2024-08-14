@@ -23,75 +23,50 @@ const getOrder = async (setOrder) => {
 
 function EtaPage() {
     const [order, setOrder] = useState({});
+    const [bgColor, setbgColor] = useState("bg-gray");
 
     useEffect(() => {
         getOrder(setOrder);
     }, []);
 
+    useEffect(() => {
+        if (order.orderDone) {
+            return setbgColor("bg-mint-dark");
+        }
+    }, [order]);
+
     return order.hasOwnProperty("userid") ? (
-        order.orderDone ? (
-            <main className="bg-mint-dark min-h-svh text-white font-fira">
-                <header className="p-4">
-                    <img src="../src/assets/logo.svg" alt="YumYum logo" />
-                </header>
-                <section>
-                    <img
-                        src="../src/assets/boxtop.png"
-                        alt="image of a boxtop"
-                    />
+        <main className={`${bgColor} min-h-svh text-white font-fira`}>
+            <header className="p-4">
+                <img src="../src/assets/logo.svg" alt="YumYum logo" />
+            </header>
+            <section>
+                <img src="../src/assets/boxtop.png" alt="image of a boxtop" />
+                {order.orderDone ? (
                     <h1 className="text-3xl px-20 text-center mb-14 font-bold">
                         DINA WONTONS ÄR KLARA!
                     </h1>
-                    <p className="text-center ">
-                        #{order.orderid.toUpperCase()}
-                    </p>
-                </section>
-                <footer className="fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full">
-                    <Link to={"/menu"}>
-                        <Button
-                            text={"BESTÄLL MER"}
-                            fill={true}
-                            color={"coal"}
-                            handleClick={() => console.log("click")}
-                        />
-                    </Link>
-                    <Link to={`/receipt/${order.orderid}`}>
-                        <Button text={"SE KVITTO"} fill={false} />
-                    </Link>
-                </footer>
-            </main>
-        ) : (
-            <main className="bg-gray min-h-svh text-white font-fira">
-                <header className="p-4">
-                    <img src="../src/assets/logo.svg" alt="YumYum logo" />
-                </header>
-                <section>
-                    <img
-                        src="../src/assets/boxtop.png"
-                        alt="image of a boxtop"
-                    />
-                    <h1 className="text-3xl px-12 text-center mb-4">
-                        DINA WONTONS TILLAGAS!
-                    </h1>
-                    <h2 className="text-2xl text-center font-medium pb-2">
-                        ETA 5 MIN
-                    </h2>
-                    <p className="text-center ">#{order.orderid}</p>
-                </section>
-                <footer className="fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full">
-                    <Link to={"/menu"}>
-                        <Button
-                            text={"BESTÄLL MER"}
-                            fill={true}
-                            color={"coal"}
-                        />
-                    </Link>
-                    <Link to={`/receipt/${order.orderid}`}>
-                        <Button text={"SE KVITTO"} fill={false} />
-                    </Link>
-                </footer>
-            </main>
-        )
+                ) : (
+                    <>
+                        <h1 className="text-3xl px-12 text-center mb-4">
+                            DINA WONTONS TILLAGAS!
+                        </h1>
+                        <h2 className="text-2xl text-center font-medium pb-2">
+                            ETA {order.est} MIN
+                        </h2>
+                    </>
+                )}
+                <p className="text-center ">#{order.orderid}</p>
+            </section>
+            <footer className="fixed top-auto bottom-0 p-4 flex flex-col gap-4 w-full">
+                <Link to={"/menu"}>
+                    <Button text={"BESTÄLL MER"} fill={true} color={"coal"} />
+                </Link>
+                <Link to={`/receipt/${order.orderid}`}>
+                    <Button text={"SE KVITTO"} fill={false} />
+                </Link>
+            </footer>
+        </main>
     ) : (
         <h1 className="text-2xl text-center font-medium pb-2 mt-16">
             404 not found
