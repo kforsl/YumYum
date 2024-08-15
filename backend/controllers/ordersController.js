@@ -8,11 +8,14 @@ const database = new nedb({ filename: "./data/orders.db", autoload: true });
 // @route /orders
 export const getOrders = async (req, res, next) => {
     try {
-        const allOrders = await database.find({});
+        const allOrders = await database
+            .find({})
+            .sort({ orderCreated: 1 })
+            .exec();
 
-        res.status(200).send({
+        res.status(202).send({
             success: true,
-            status: 200,
+            status: 202,
             message: "Successfully got all orders",
             orders: allOrders,
         });
@@ -33,7 +36,7 @@ export const createOrder = async (req, res, next) => {
 
         if (cart.length < 1) {
             const err = new Error("can't create an empty order");
-            err.status = 400;
+            err.status = 403;
             return next(err);
         }
 
@@ -60,9 +63,9 @@ export const createOrder = async (req, res, next) => {
 
         database.insert(newOrder);
 
-        res.status(200).send({
+        res.status(201).send({
             success: true,
-            status: 200,
+            status: 201,
             message: "Successfully created order",
             order: newOrder,
         });
@@ -75,22 +78,13 @@ export const createOrder = async (req, res, next) => {
 // @route /orders/user
 export const getUserOrders = async (req, res, next) => {
     try {
-        // if (global.currentUser === null) {
-        //     const err = new Error("You need to login to see your orders");
-        //     err.status = 400;
-        //     return next(err);
-        // }
-
         const userOrders = await database.find({
             userid: "userid",
         });
-        // const userOrders = await database.find({
-        //     userid: global.currentUser.userid,
-        // });
 
-        res.status(200).send({
+        res.status(202).send({
             success: true,
-            status: 200,
+            status: 202,
             message: "Successfully got all the users orders",
             order: userOrders,
         });
@@ -108,45 +102,21 @@ export const getOrder = async (req, res, next) => {
 
         const order = await database.findOne({ orderid: id });
 
-        // if (global.currentUser === null) {
-        //     if (order.userid !== "guest") {
-        //         const err = new Error("You need to login to see your orders");
-        //         err.status = 400;
-        //         return next(err);
-        //     }
-
-        //     res.status(200).send({
-        //         success: true,
-        //         status: 200,
-        //         message: "Successfully got specific Guest order",
-        //         order: order,
-        //     });
-        // }
-
-        // if (
-        //     global.currentUser.role !== "worker" &&
-        //     global.currentUser.role !== "customer"
-        // ) {
-        //     const err = new Error("Access denied, you can't see this order");
-        //     err.status = 400;
-        //     return next(err);
-        // }
-
         if (!order) {
             const err = new Error("No order found with that id");
-            err.status = 400;
+            err.status = 404;
             return next(err);
         }
 
         if (user.userid !== order.userid) {
             const err = new Error("Access denied, you can't see this order");
-            err.status = 400;
+            err.status = 401;
             return next(err);
         }
 
-        res.status(200).send({
+        res.status(202).send({
             success: true,
-            status: 200,
+            status: 202,
             message: "Successfully got specific order",
             order: order,
         });
@@ -162,19 +132,11 @@ export const completeOrder = async (req, res, next) => {
         const id = req.params.id;
         const updatedOrder = req.body.order;
 
-        // if (global.currentUser.role !== "worker") {
-        //     const err = new Error(
-        //         "Access denied, you can't change orderstatus"
-        //     );
-        //     err.status = 400;
-        //     return next(err);
-        // }
-
         const order = await database.findOne({ orderid: id });
 
         if (!order) {
             const err = new Error("No order found with that id");
-            err.status = 400;
+            err.status = 404;
             return next(err);
         }
 

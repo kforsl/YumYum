@@ -1,8 +1,4 @@
-import {
-    addToCart,
-    getCartFromStorage,
-    removeFromCart,
-} from "../utility/cartFunctions";
+import { addToCart, removeFromCart } from "../utility/cartFunctions";
 
 function CartItem({ item, handleCartState }) {
     return (

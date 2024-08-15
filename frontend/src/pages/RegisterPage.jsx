@@ -49,16 +49,13 @@ function RegisterPage() {
     const [errorMessage, setErrorMessage] = useState("");
     return (
         <main
-            className="p-4 bg-fixed text-snow bg-mint min-h-svh font-fira"
+            className="p-4 bg-fixed text-snow bg-mint min-h-svh font-fira flex justify-center"
             style={{
                 backgroundImage: `url('../src/assets/leafbg.svg')`,
             }}
         >
-            <header className="flex flex-row justify-between mb-8">
-                <img src="../src/assets/logo.svg" alt="YumYum logo" />
-            </header>
-            <section className="bg-gray-dark rounded p-4 my-auto">
-                <h1 className="text-3xl py-8 font-bold "> Register User </h1>
+            <section className="bg-gray-dark rounded p-4 my-auto w-full">
+                <h1 className="text-3xl pt-8 pb-4 font-bold ">Register User</h1>
                 <h2 className="text-lg text-alert pb-4 min-h-11">
                     {errorMessage}
                 </h2>
