@@ -52,6 +52,14 @@ const OrderCard = ({ order }) => {
     const [typeOfCard, setTypeOfCard] = useState("");
 
     useEffect(() => {
+        const interval = setInterval(() => {
+            setTime(calculateOrderTime(orderCard));
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
         const cardStyleClass = orderCard.orderDone
             ? "bg-mint-light col-start-2"
             : "bg-bacon col-start-1";

@@ -32,6 +32,11 @@ function EtaPage() {
 
     useEffect(() => {
         getOrder(setOrder, setIsPageLoading);
+        const interval = setInterval(() => {
+            getOrder(setOrder, setIsPageLoading);
+        }, 15000);
+
+        return () => clearInterval(interval);
     }, []);
 
     useEffect(() => {

@@ -32,6 +32,12 @@ function OrdersPage() {
 
     useEffect(() => {
         getAllOrders(setOrders, setIsAuthorize, setIsPageLoading);
+
+        const interval = setInterval(() => {
+            getAllOrders(setOrders, setIsAuthorize, setIsPageLoading);
+        }, 15000);
+
+        return () => clearInterval(interval);
     }, []);
 
     return isPageLoading ? (
