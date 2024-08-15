@@ -44,15 +44,12 @@ function LoginPage() {
     const [errorMessage, setErrorMessage] = useState("");
     return (
         <main
-            className="p-4 bg-fixed text-snow bg-mint min-h-svh font-fira"
+            className="p-4 bg-fixed text-snow bg-mint min-h-svh font-fira flex justify-center"
             style={{
                 backgroundImage: `url('../src/assets/leafbg.svg')`,
             }}
         >
-            <header className="flex flex-row justify-between mb-8">
-                <img src="../src/assets/logo.svg" alt="YumYum Logo" />
-            </header>
-            <section className="bg-gray-dark rounded p-4 min-h-[572px] flex flex-col justify-between">
+            <section className="bg-gray-dark rounded p-4 my-auto flex flex-col justify-between w-full min-h-[600px]">
                 <h1 className="text-3xl pt-8 pb-4 font-bold "> Login </h1>
                 <h2 className="text-lg text-alert pb-4 min-h-11">
                     {errorMessage}

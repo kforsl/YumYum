@@ -22,8 +22,6 @@ const updateOrder = async (order, setOrderCard) => {
         );
 
         if (response) {
-            console.log(response.data.order);
-
             setOrderCard(response.data.order);
         }
     } catch (err) {
@@ -31,7 +29,7 @@ const updateOrder = async (order, setOrderCard) => {
     }
 };
 
-const testFunctionTime = (order) => {
+const calculateOrderTime = (order) => {
     const created = Date.parse(order.orderCreated);
     let timeDiffrence;
 
@@ -50,20 +48,20 @@ const testFunctionTime = (order) => {
 
 const OrderCard = ({ order }) => {
     const [orderCard, setOrderCard] = useState(order);
-    const [time, setTime] = useState(testFunctionTime(order));
-    const [classes, setClasses] = useState("");
+    const [time, setTime] = useState(calculateOrderTime(order));
+    const [typeOfCard, setTypeOfCard] = useState("");
 
     useEffect(() => {
-        const classNames = orderCard.orderDone
+        const cardStyleClass = orderCard.orderDone
             ? "bg-mint-light col-start-2"
             : "bg-bacon col-start-1";
-        setClasses(classNames);
+        setTypeOfCard(cardStyleClass);
     }, [orderCard]);
 
     {
         return (
             <article
-                className={`${classes} text-coal rounded p-2 flex flex-col justify-between gap-4`}
+                className={`${typeOfCard} text-coal rounded p-2 flex flex-col justify-between gap-4`}
             >
                 <h2 className="text-center text-2xl font-medium">
                     #{orderCard.orderid}

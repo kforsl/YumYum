@@ -39,7 +39,7 @@ const createOrder = async () => {
                 }
             );
 
-            if (response.status === 200) {
+            if (response.status === 201) {
                 const id = response.data.order.orderid;
                 handleCartInStorage([]);
                 window.location.pathname = `/eta/${id}`;

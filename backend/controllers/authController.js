@@ -17,7 +17,7 @@ export const registerUser = async (req, res, next) => {
             const err = new Error(
                 "Username is already in used try another one"
             );
-            err.status = 400;
+            err.status = 406;
             return next(err);
         }
 
@@ -42,9 +42,9 @@ export const registerUser = async (req, res, next) => {
             process.env.ACCESS_TOKEN_SECRET
         );
 
-        res.status(200).send({
+        res.status(201).send({
             success: true,
-            status: 200,
+            status: 201,
             message: "User Successfully created, Welcome to Yum Yum.",
             accessToken: accessToken,
         });
@@ -64,7 +64,7 @@ export const loginUser = async (req, res, next) => {
 
         if (!foundUser) {
             const err = new Error("validation fail try again");
-            err.status = 405;
+            err.status = 406;
             return next(err);
         }
 
@@ -73,32 +73,12 @@ export const loginUser = async (req, res, next) => {
             process.env.ACCESS_TOKEN_SECRET
         );
 
-        res.status(200).send({
+        res.status(202).send({
             success: true,
-            status: 200,
+            status: 202,
             message: "Welcome back to Yum Yum, you are now logged in.",
             accessToken: accessToken,
             role: foundUser.role,
-        });
-    } catch (error) {
-        next(error);
-    }
-};
-
-// @desc POST Logout the current user
-// @route /auth/logout
-export const logoutUser = async (req, res, next) => {
-    try {
-        // if (global.currentUser === null) {
-        //     const err = new Error("No user logged in to logout");
-        //     err.status = 400;
-        //     return next(err);
-        // }
-        // global.currentUser = null;
-        res.status(200).send({
-            success: true,
-            status: 200,
-            message: "You successfuly logged out. Come back soon",
         });
     } catch (error) {
         next(error);

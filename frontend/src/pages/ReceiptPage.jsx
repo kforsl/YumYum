@@ -3,8 +3,10 @@ import Button from "../components/Button";
 import ReceiptItem from "../components/ReceiptItem";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import NotFound from "./../components/NotFound";
+import Loading from "../components/Loading";
 
-const getOrder = async (setOrder) => {
+const getOrder = async (setOrder, setIsPageLoading) => {
     try {
         const token = sessionStorage.getItem("accessToken");
         const id = location.pathname.split("/")[2];
@@ -16,20 +18,25 @@ const getOrder = async (setOrder) => {
 
         if (response) {
             setOrder(response.data.order);
+            setIsPageLoading(false);
         }
     } catch (err) {
         console.log(err);
+        setIsPageLoading(false);
     }
 };
 
 function ReceiptPage() {
     const [order, setOrder] = useState({});
+    const [isPageLoading, setIsPageLoading] = useState(true);
 
     useEffect(() => {
-        getOrder(setOrder);
+        getOrder(setOrder, setIsPageLoading);
     }, []);
 
-    return order.hasOwnProperty("userid") ? (
+    return isPageLoading ? (
+        <Loading />
+    ) : order.hasOwnProperty("userid") ? (
         <main className="bg-gray-dark min-h-svh text-white font-fira">
             <header className="mb-16 pt-4 pl-4">
                 <img src="../src/assets/logo.svg" alt="YumYum Logo" />
@@ -74,10 +81,7 @@ function ReceiptPage() {
             </footer>
         </main>
     ) : (
-        <h1 className="text-2xl text-center font-medium pb-2 mt-16">
-            {" "}
-            404 not found{" "}
-        </h1>
+        <NotFound />
     );
 }
 

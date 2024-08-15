@@ -69,7 +69,9 @@ function MenuPage() {
                         })}
                     </ul>
                 ) : (
-                    <h2> Item is loading.....</h2>
+                    <h2 className="text-center animate-pulse">
+                        Item is loading.....
+                    </h2>
                 )}
                 <article className="p-4">
                     <section className="flex flex-row justify-between mb-2 text-xl font-bold">
@@ -91,7 +93,9 @@ function MenuPage() {
                             })}
                         </section>
                     ) : (
-                        <h2> Item is loading.....</h2>
+                        <h2 className="text-center animate-pulse">
+                            Item is loading.....
+                        </h2>
                     )}
                 </article>
             </section>
